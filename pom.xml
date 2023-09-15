@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tsl3060.open.extend</groupId>
-    <artifactId>OpenExtendDemo</artifactId>
+    <artifactId>tsl-open-sdk-java-wanshun</artifactId>
     <version>0.3.6</version>
 
     <properties>
