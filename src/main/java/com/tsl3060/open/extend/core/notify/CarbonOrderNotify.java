@@ -22,7 +22,7 @@ public class CarbonOrderNotify {
      * 用户低碳积分
      */
     @JSONField(name = "carbon")
-    private double carbon;
+    private String carbon;
 
     /**
      * 本次订单新增积分
@@ -68,11 +68,12 @@ public class CarbonOrderNotify {
         this.carbonNo = carbonNo;
     }
 
-    public double getCarbon() {
+
+    public String getCarbon() {
         return carbon;
     }
 
-    public void setCarbon(double carbon) {
+    public void setCarbon(String carbon) {
         this.carbon = carbon;
     }
 
