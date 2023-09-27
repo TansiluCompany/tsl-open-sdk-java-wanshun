@@ -13,7 +13,7 @@ public class CarbonOrderPayload extends RequestPayload implements IApiRequest {
     @JSONField(name = "order_no")
     private String orderNo;
 
-    private double mileage;
+    private String mileage;
     @JSONField(name = "order_time")
     private String orderTime;
     @JSONField(name = "order_state")
@@ -26,7 +26,7 @@ public class CarbonOrderPayload extends RequestPayload implements IApiRequest {
     private String completeTime = "";
 
     @JSONField(name = "order_pay")
-    private double orderPay = 0;
+    private String orderPay;
     private String behavior = "";
 
 
@@ -46,13 +46,6 @@ public class CarbonOrderPayload extends RequestPayload implements IApiRequest {
         this.orderNo = orderNo;
     }
 
-    public double getMileage() {
-        return mileage;
-    }
-
-    public void setMileage(double mileage) {
-        this.mileage = mileage;
-    }
 
     public String getOrderTime() {
         return orderTime;
@@ -95,12 +88,31 @@ public class CarbonOrderPayload extends RequestPayload implements IApiRequest {
         this.completeTime = completeTime;
     }
 
-    public double getOrderPay() {
+    public String getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(String mileage) {
+        this.mileage = mileage;
+    }
+
+    public void setMileage(double mileage) {
+        this.setMileage(String.valueOf(mileage));
+    }
+
+    public String getOrderPay() {
         return orderPay;
     }
 
-    public void setOrderPay(double orderPay) {
+    public void setOrderPay(String orderPay) {
         this.orderPay = orderPay;
+    }
+
+    /**
+     * @param orderPay
+     */
+    public void setOrderPay(double orderPay) {
+        this.setOrderPay(String.valueOf(orderPay));
     }
 
     public String getBehavior() {
