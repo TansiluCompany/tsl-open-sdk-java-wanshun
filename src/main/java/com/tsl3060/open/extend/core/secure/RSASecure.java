@@ -48,13 +48,13 @@ public class RSASecure implements ISecure {
                     Object v = j.get(key);
                     String vx;
                     if (v instanceof Double) {
-                        vx = String.format("%.2f", v);
+                        vx = String.format("%s", BigDecimal.valueOf((Double) v).stripTrailingZeros());
                     } else if (v instanceof Float) {
-                        vx = String.format("%.2f", v);
+                        vx = String.format("%s", BigDecimal.valueOf((Float) v).stripTrailingZeros());
                     } else if (v instanceof Boolean) {
                         vx = String.format("%s", v);
                     } else if (v instanceof BigDecimal) {
-                        vx = String.format("%.2f", v);
+                        vx = String.format("%s", ((BigDecimal) v).stripTrailingZeros());
                     } else {
                         vx = String.valueOf(v);
                     }
