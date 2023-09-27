@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class ApiClient {
 
@@ -140,6 +141,8 @@ public class ApiClient {
                 .post(requestBody)
                 .build();
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        //设置连接超时时间
+        builder.connectTimeout(this.config.getTimeout(), TimeUnit.MILLISECONDS);
         OkHttpClient okHttpClient = builder.build();
         try {
             Call call = okHttpClient.newCall(request);
