@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class ApiClient {
 
@@ -140,6 +141,8 @@ public class ApiClient {
                 .post(requestBody)
                 .build();
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        //设置连接超时时间
+        builder.connectTimeout(this.config.getTimeout(), TimeUnit.MILLISECONDS);
         OkHttpClient okHttpClient = builder.build();
         try {
             Call call = okHttpClient.newCall(request);
@@ -196,29 +199,18 @@ public class ApiClient {
 
     private NotifyMapRouter notifyMapRouter;
 
+
     /**
      * 验证回调数据
      *
-     * @return
+     * @param notifyRequest 回调请求
+     * @param accept        回调接收的类型
+     * @return 返回Body
+     * @throws BadResourceException
      */
-    public String notifyRun(String raw, String contentType, String accept) throws BadResourceException {
+    public String notifyRun(NotifyRequest notifyRequest, String accept) throws BadResourceException {
         if (notifyMapRouter == null) {
             notifyMapRouter = new NotifyMapRouter(this.notifyListener);
-        }
-        if (StrUtil.isEmpty(raw)) {
-            throw new BadResourceException("通知内容为空");
-        }
-
-        NotifyRequest notifyRequest;
-        if (contentType.contains("application/json")) {
-            notifyRequest = JSON.parseObject(raw, NotifyRequest.class);
-        } else if (contentType.contains("application/xml")) {
-            //XML格式
-            Document document = XmlUtil.parseXml(raw);
-            //TODO 对XML解析
-            throw new BadResourceException("暂不支持的格式");
-        } else {
-            throw new BadResourceException("不支持的数据格式");
         }
         //验证通知
         ISecure iSecure = getSecureTool().getSecure(notifyRequest.getSignType());
@@ -252,7 +244,6 @@ public class ApiClient {
         notifyAnswerResponse.setSign(signStr);
         //解析完成
         if (accept.contains("application/json")) {
-
             return JSON.toJSONString(notifyAnswerResponse);
         } else if (accept.contains("application/xml")) {
             //返回XML格式
@@ -261,5 +252,33 @@ public class ApiClient {
             //未知的格式
             return "";
         }
+    }
+
+    /**
+     * 验证回调数据
+     *
+     * @return
+     */
+    public String notifyRun(String raw, String contentType, String accept) throws BadResourceException {
+        if (notifyMapRouter == null) {
+            notifyMapRouter = new NotifyMapRouter(this.notifyListener);
+        }
+        if (StrUtil.isEmpty(raw)) {
+            throw new BadResourceException("通知内容为空");
+        }
+
+        NotifyRequest notifyRequest;
+        if (contentType.contains("application/json")) {
+            notifyRequest = JSON.parseObject(raw, NotifyRequest.class);
+        } else if (contentType.contains("application/xml")) {
+            //XML格式
+            Document document = XmlUtil.parseXml(raw);
+            //TODO 对XML解析
+            throw new BadResourceException("暂不支持的格式");
+        } else {
+            throw new BadResourceException("不支持的数据格式");
+        }
+
+        return notifyRun(notifyRequest, accept);
     }
 }

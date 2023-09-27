@@ -19,6 +19,15 @@ public class Config {
     private String host = "https://open.tsl3060.com";
     private String dataFormat = "yyyy-MM-dd HH:mm:ss";
 
+    private int timeout = 25000;
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
 
     public String getPrivateKey() {
         return privateKey;
