@@ -28,7 +28,7 @@ public class CarbonOrderNotify {
      * 本次订单新增积分
      */
     @JSONField(name = "amount")
-    private double amount;
+    private String amount;
     /**
      * 订单时间
      */
@@ -77,11 +77,11 @@ public class CarbonOrderNotify {
         this.carbon = carbon;
     }
 
-    public double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
